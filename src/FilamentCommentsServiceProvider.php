@@ -1,19 +1,18 @@
 <?php
 
-namespace Parallax\FilamentComments;
+namespace Evitenic\FilamentComments;
 
+use Evitenic\FilamentComments\Livewire\CommentComponent;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Parallax\FilamentComments\Livewire\CommentsComponent;
-use Parallax\FilamentComments\Models\FilamentComment;
-use Parallax\FilamentComments\Policies\FilamentCommentPolicy;
+use Evitenic\FilamentComments\Livewire\CommentsComponent;
+use Evitenic\FilamentComments\Policies\FilamentCommentPolicy;
 
 class FilamentCommentsServiceProvider extends PackageServiceProvider
 {
@@ -54,6 +53,7 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
     public function packageBooted(): void
     {
         Livewire::component('comments', CommentsComponent::class);
+        Livewire::component('comment', CommentComponent::class);
 
         Gate::policy(config('filament-comments.comment_model'), config('filament-comments.model_policy', FilamentCommentPolicy::class));
 
