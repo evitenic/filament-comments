@@ -1,6 +1,6 @@
 <?php
 
-namespace Parallax\FilamentComments;
+namespace Evitenic\FilamentComments;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;

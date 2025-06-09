@@ -1,6 +1,6 @@
 <?php
 
-namespace Parallax\FilamentComments\Models;
+namespace Evitenic\FilamentComments\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\MassPrunable;

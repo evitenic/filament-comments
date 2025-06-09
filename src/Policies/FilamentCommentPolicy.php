@@ -1,9 +1,8 @@
 <?php
+namespace Evitenic\FilamentComments\Policies;
 
-namespace Parallax\FilamentComments\Policies;
-
+use Evitenic\FilamentComments\Models\FilamentComment;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Parallax\FilamentComments\Models\FilamentComment;
 
 class FilamentCommentPolicy
 {
@@ -24,7 +23,7 @@ class FilamentCommentPolicy
 
     public function update(Authenticatable $user, FilamentComment $filamentComment): bool
     {
-        return false;
+        return $user->id === $filamentComment->user_id;
     }
 
     public function delete(Authenticatable $user, FilamentComment $filamentComment): bool

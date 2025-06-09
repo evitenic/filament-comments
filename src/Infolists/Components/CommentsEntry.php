@@ -1,9 +1,8 @@
 <?php
 
-namespace Parallax\FilamentComments\Infolists\Components;
+namespace Evitenic\FilamentComments\Infolists\Components;
 
 use Filament\Infolists\Components\Entry;
-use Parallax\FilamentComments\Models\FilamentComment;
 
 class CommentsEntry extends Entry
 {

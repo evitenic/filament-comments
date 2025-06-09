@@ -1,11 +1,10 @@
 <?php
 
-namespace Parallax\FilamentComments\Actions;
+namespace Evitenic\FilamentComments\Actions;
 
 use Filament\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
 use Illuminate\Contracts\View\View;
-use Parallax\FilamentComments\Models\FilamentComment;
 
 class CommentsAction extends Action
 {
