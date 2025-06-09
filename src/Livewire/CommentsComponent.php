@@ -1,20 +1,21 @@
 <?php
 
-namespace Parallax\FilamentComments\Livewire;
+namespace Evitenic\FilamentComments\Livewire;
 
-use Filament\Forms;
+use Evitenic\FilamentComments\Traits\HasEditorComponent;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Livewire\Attributes\On;
 use Livewire\Component;
-use Parallax\FilamentComments\Models\FilamentComment;
 
 class CommentsComponent extends Component implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasEditorComponent;
 
     public ?array $data = [];
 
@@ -31,20 +32,7 @@ class CommentsComponent extends Component implements HasForms
             return $form;
         }
 
-        if (config('filament-comments.editor') === 'markdown') {
-            $editor = Forms\Components\MarkdownEditor::make('comment')
-                ->hiddenLabel()
-                ->required()
-                ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))
-                ->toolbarButtons(config('filament-comments.toolbar_buttons'));
-        } else {
-            $editor = Forms\Components\RichEditor::make('comment')
-                ->hiddenLabel()
-                ->required()
-                ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))
-                ->extraInputAttributes(['style' => 'min-height: 6rem'])
-                ->toolbarButtons(config('filament-comments.toolbar_buttons'));
-        }
+        $editor = $this->getEditorComponent(config('filament-comments.editor'));
 
         return $form
             ->schema([
@@ -77,29 +65,20 @@ class CommentsComponent extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function delete(int $id): void
+    #[On('refreshComments')]
+    public function refreshComments()
     {
-        $comment = FilamentComment::find($id);
+        $this->getComments();
+    }
 
-        if (!$comment) {
-            return;
-        }
-
-        if (!auth()->user()->can('delete', $comment)) {
-            return;
-        }
-
-        $comment->delete();
-
-        Notification::make()
-            ->title(__('filament-comments::filament-comments.notifications.deleted'))
-            ->success()
-            ->send();
+    public function getComments(): Collection
+    {
+        return $this->record->filamentComments()->with(['user'])->latest()->get();
     }
 
     public function render(): View
     {
-        $comments = $this->record->filamentComments()->with(['user'])->latest()->get();
+        $comments = $this->getComments();
 
         return view('filament-comments::comments', ['comments' => $comments]);
     }
