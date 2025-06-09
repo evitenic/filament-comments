@@ -65,7 +65,7 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'parallax/filament-comments';
+        return 'evitenic/filament-comments';
     }
 
     /**
