@@ -1,21 +1,24 @@
 {
-    "name": "parallax/filament-comments",
+    "name": "evitenic/filament-comments",
     "description": "Add comments to your Filament Resources.",
     "keywords": [
-        "parallax",
         "laravel",
         "filament-comments"
     ],
-    "homepage": "https://github.com/parallax/filament-comments",
+    "homepage": "https://github.com/evitenic/filament-comments",
     "support": {
-        "issues": "https://github.com/parallax/filament-comments/issues",
-        "source": "https://github.com/parallax/filament-comments"
+        "issues": "https://github.com/evitenic/filament-comments/issues",
+        "source": "https://github.com/evitenic/filament-comments"
     },
     "license": "MIT",
     "authors": [
         {
             "name": "Parallax",
             "email": "luke@parall.ax",
+            "role": "Developer"
+        },
+         {
+            "name": "Evitenic",
             "role": "Developer"
         }
     ],
@@ -27,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Parallax\\FilamentComments\\": "src/"
+            "Evitenic\\FilamentComments\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Parallax\\FilamentComments\\FilamentCommentsServiceProvider"
+                "Evitenic\\FilamentComments\\FilamentCommentsServiceProvider"
             ]
         }
     },
