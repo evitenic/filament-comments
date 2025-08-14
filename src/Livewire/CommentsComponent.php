@@ -2,10 +2,10 @@
 
 namespace Evitenic\FilamentComments\Livewire;
 
+use Filament\Schemas\Schema;
 use Evitenic\FilamentComments\Traits\HasEditorComponent;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,16 +26,16 @@ class CommentsComponent extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         if (!auth()->user()->can('create', config('filament-comments.comment_model'))) {
-            return $form;
+            return $schema;
         }
 
         $editor = $this->getEditorComponent(config('filament-comments.editor'));
 
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 $editor,
             ])
             ->statePath('data');

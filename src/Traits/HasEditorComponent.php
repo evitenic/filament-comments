@@ -1,6 +1,10 @@
 <?php
 
 namespace Evitenic\FilamentComments\Traits;
+
+use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\RichEditor;
+
 trait HasEditorComponent
 {
     /**
@@ -11,13 +15,13 @@ trait HasEditorComponent
     public function getEditorComponent(string $editor = 'rich')
     {
         return match ($editor) {
-            'markdown' =>  \Filament\Forms\Components\MarkdownEditor::make('comment')
+            'markdown' =>  MarkdownEditor::make('comment')
                 ->hiddenLabel()
                 ->required()
                 ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))
                 ->toolbarButtons(config('filament-comments.toolbar_buttons')),
 
-            default => \Filament\Forms\Components\RichEditor::make('comment')
+            default => RichEditor::make('comment')
                 ->hiddenLabel()
                 ->required()
                 ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))
