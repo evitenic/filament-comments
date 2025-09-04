@@ -1,4 +1,5 @@
 <?php
+
 namespace Evitenic\FilamentComments\Livewire;
 
 use Carbon\Carbon;
@@ -6,15 +7,15 @@ use Evitenic\FilamentComments\Models\FilamentComment;
 use Evitenic\FilamentComments\Traits\HasEditorComponent;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
 class CommentComponent extends Component implements HasForms
 {
-    use InteractsWithForms, HasEditorComponent;
+    use HasEditorComponent, InteractsWithForms;
 
     public ?array $newData = [];
 
@@ -39,16 +40,16 @@ class CommentComponent extends Component implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
         if (! auth()->user()->can('update', $this->comment)) {
-            return $form;
+            return $schema;
         }
 
         $editor = $this->getEditorComponent(config('filament-comments.editor'));
 
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 $editor,
             ])
             ->statePath('newData');
@@ -61,6 +62,7 @@ class CommentComponent extends Component implements HasForms
         }
 
         $isExp = now()->lessThan($this->editExpirationTime);
+
         return $isExp;
     }
 
@@ -80,6 +82,7 @@ class CommentComponent extends Component implements HasForms
                 ->send();
 
             $this->cancelEdit();
+
             return;
         }
 
@@ -111,12 +114,14 @@ class CommentComponent extends Component implements HasForms
                 ->warning()
                 ->send();
             $this->cancelEdit();
+
             return;
         }
 
         $data = $this->form->getState();
         if ($comment->comment === $data['comment']) {
             $this->cancelEdit();
+
             return;
         }
 
@@ -125,7 +130,7 @@ class CommentComponent extends Component implements HasForms
         $data = $this->form->getState();
 
         $comment->update([
-            'comment'   => $data['comment'],
+            'comment' => $data['comment'],
             'is_edited' => true,
         ]);
 

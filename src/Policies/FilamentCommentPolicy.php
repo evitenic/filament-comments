@@ -1,4 +1,5 @@
 <?php
+
 namespace Evitenic\FilamentComments\Policies;
 
 use Evitenic\FilamentComments\Models\FilamentComment;

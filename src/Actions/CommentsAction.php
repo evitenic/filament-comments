@@ -3,7 +3,7 @@
 namespace Evitenic\FilamentComments\Actions;
 
 use Filament\Actions\Action;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Illuminate\Contracts\View\View;
 
 class CommentsAction extends Action
@@ -25,7 +25,7 @@ class CommentsAction extends Action
             ->slideOver()
             ->modalContentFooter(fn (): View => view('filament-comments::component'))
             ->modalHeading(__('filament-comments::filament-comments.modal.heading'))
-            ->modalWidth(MaxWidth::Medium)
+            ->modalWidth(Width::Medium)
             ->modalSubmitAction(false)
             ->modalCancelAction(false)
             ->visible(fn (): bool => auth()->user()->can('viewAny', config('filament-comments.comment_model')));
