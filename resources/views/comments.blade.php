@@ -1,7 +1,5 @@
 <div
     class="flex flex-col h-full space-y-4"
-    x-load
-    x-load-css="[@js(\Filament\Support\Facades\FilamentAsset::getStyleHref('filament-comments', package: 'evitenic/filament-comments'))]"
 >
     @if (auth()->user()->can('create', \Evitenic\FilamentComments\Models\FilamentComment::class))
         <div class="space-y-4">
