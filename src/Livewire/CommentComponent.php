@@ -5,17 +5,17 @@ namespace Evitenic\FilamentComments\Livewire;
 use Carbon\Carbon;
 use Evitenic\FilamentComments\Models\FilamentComment;
 use Evitenic\FilamentComments\Traits\HasEditorComponent;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Concerns\InteractsWithSchemas;
+use Filament\Schemas\Contracts\HasSchemas;
 use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
-class CommentComponent extends Component implements HasForms
+class CommentComponent extends Component implements HasSchemas
 {
-    use HasEditorComponent, InteractsWithForms;
+    use HasEditorComponent, InteractsWithSchemas;
 
     public ?array $newData = [];
 
