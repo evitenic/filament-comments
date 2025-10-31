@@ -2,8 +2,8 @@
 
 namespace Evitenic\FilamentComments\Tables\Actions;
 
-use Filament\Tables\Actions\Action;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Tables\Actions\Action;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Model;
 

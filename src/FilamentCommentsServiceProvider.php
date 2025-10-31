@@ -3,6 +3,8 @@
 namespace Evitenic\FilamentComments;
 
 use Evitenic\FilamentComments\Livewire\CommentComponent;
+use Evitenic\FilamentComments\Livewire\CommentsComponent;
+use Evitenic\FilamentComments\Policies\FilamentCommentPolicy;
 use Filament\Support\Assets\Asset;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -11,8 +13,6 @@ use Livewire\Livewire;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Evitenic\FilamentComments\Livewire\CommentsComponent;
-use Evitenic\FilamentComments\Policies\FilamentCommentPolicy;
 
 class FilamentCommentsServiceProvider extends PackageServiceProvider
 {
@@ -74,7 +74,7 @@ class FilamentCommentsServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            Css::make('filament-comments-styles', __DIR__ . '/../resources/dist/filament-comments.css'),
+            Css::make('filament-comments-styles', __DIR__.'/../resources/dist/filament-comments.css'),
         ];
     }
 

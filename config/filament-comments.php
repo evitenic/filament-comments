@@ -16,7 +16,6 @@ return [
         'edit' => 'heroicon-s-pencil-square',
     ],
 
-
     /*
      * The comment model to be used
      */
@@ -34,11 +33,13 @@ return [
      */
     'prune_after_days' => 30,
 
-
     /*
      * Options: 'rich', 'markdown'
      */
     'editor' => 'rich',
+
+    // null or html
+    'comment_type' => 'html',
 
     /*
      * The rich editor toolbar buttons that are available to users.
@@ -67,7 +68,6 @@ return [
      * Authenticatable model class
      */
     'authenticatable' => \App\Models\User::class,
-
 
     /*
      * The name of the table where the comments are stored.

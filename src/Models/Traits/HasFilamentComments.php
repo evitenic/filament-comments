@@ -3,7 +3,6 @@
 namespace Evitenic\FilamentComments\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Evitenic\FilamentComments\Models\FilamentComment;
 
 trait HasFilamentComments
 {

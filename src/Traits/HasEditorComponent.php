@@ -1,6 +1,9 @@
 <?php
 
 namespace Evitenic\FilamentComments\Traits;
+
+use Filament\Forms\Components\Field;
+
 trait HasEditorComponent
 {
     /**
@@ -8,10 +11,16 @@ trait HasEditorComponent
      *
      * @return string
      */
-    public function getEditorComponent(string $editor = 'rich')
+    public function getEditorComponent(string|Field $editor = 'rich')
     {
+        if ($editor instanceof Field) {
+            return $editor
+                ->hiddenLabel()
+                ->required();
+        }
+
         return match ($editor) {
-            'markdown' =>  \Filament\Forms\Components\MarkdownEditor::make('comment')
+            'markdown' => \Filament\Forms\Components\MarkdownEditor::make('comment')
                 ->hiddenLabel()
                 ->required()
                 ->placeholder(__('filament-comments::filament-comments.comments.placeholder'))

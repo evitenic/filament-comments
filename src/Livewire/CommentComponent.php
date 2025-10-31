@@ -1,4 +1,5 @@
 <?php
+
 namespace Evitenic\FilamentComments\Livewire;
 
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ use Livewire\Component;
 
 class CommentComponent extends Component implements HasForms
 {
-    use InteractsWithForms, HasEditorComponent;
+    use HasEditorComponent, InteractsWithForms;
 
     public ?array $newData = [];
 
@@ -61,6 +62,7 @@ class CommentComponent extends Component implements HasForms
         }
 
         $isExp = now()->lessThan($this->editExpirationTime);
+
         return $isExp;
     }
 
@@ -80,6 +82,7 @@ class CommentComponent extends Component implements HasForms
                 ->send();
 
             $this->cancelEdit();
+
             return;
         }
 
@@ -111,12 +114,14 @@ class CommentComponent extends Component implements HasForms
                 ->warning()
                 ->send();
             $this->cancelEdit();
+
             return;
         }
 
         $data = $this->form->getState();
         if ($comment->comment === $data['comment']) {
             $this->cancelEdit();
+
             return;
         }
 
@@ -125,7 +130,7 @@ class CommentComponent extends Component implements HasForms
         $data = $this->form->getState();
 
         $comment->update([
-            'comment'   => $data['comment'],
+            'comment' => $data['comment'],
             'is_edited' => true,
         ]);
 

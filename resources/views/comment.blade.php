@@ -3,15 +3,15 @@
     $isEditable = $this->isEditable();
 @endphp
 <div
-    class="fi-in-repeatable-item block rounded-xl bg-white p-4 shadow-sm ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10">
+    class="block p-4 bg-white shadow-sm fi-in-repeatable-item rounded-xl ring-1 ring-gray-950/5 dark:bg-white/5 dark:ring-white/10">
     <div class="flex gap-x-3">
         @if (config('filament-comments.display_avatars'))
             <x-filament-panels::avatar.user size="md" :user="$comment->user" />
         @endif
 
         <div class="flex-grow space-y-2 pt-[6px]">
-            <div class="flex gap-x-2 items-center justify-between">
-                <div class="flex gap-x-2 items-center">
+            <div class="flex items-center justify-between gap-x-2">
+                <div class="flex items-center gap-x-2">
                     <div class="text-sm font-medium text-gray-950 dark:text-white">
                         {{ $comment->user[config('filament-comments.user_name_attribute')] }}
                     </div>
@@ -60,6 +60,11 @@
                     class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white">
                     @if (config('filament-comments.editor') === 'markdown')
                         {{ Str::of($comment->comment)->markdown()->toHtmlString() }}
+                    @elseif(config('filament-comments.comment_type') === 'html')
+                        @php
+                            $safeHtml = Stevebauman\Purify\Facades\Purify::clean($comment->comment);
+                        @endphp
+                        {!! $comment->comment !!}
                     @else
                         {{ Str::of($comment->comment)->toHtmlString() }}
                     @endif

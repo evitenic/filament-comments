@@ -10,16 +10,19 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection as SupportCollection;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class CommentsComponent extends Component implements HasForms
 {
-    use InteractsWithForms, HasEditorComponent;
+    use HasEditorComponent, InteractsWithForms;
 
     public ?array $data = [];
 
     public Model $record;
+
+    public Collection|array|SupportCollection $comments;
 
     public function mount(): void
     {
@@ -28,7 +31,7 @@ class CommentsComponent extends Component implements HasForms
 
     public function form(Form $form): Form
     {
-        if (!auth()->user()->can('create', config('filament-comments.comment_model'))) {
+        if (! auth()->user()->can('create', config('filament-comments.comment_model'))) {
             return $form;
         }
 
@@ -43,7 +46,7 @@ class CommentsComponent extends Component implements HasForms
 
     public function create(): void
     {
-        if (!auth()->user()->can('create', config('filament-comments.comment_model'))) {
+        if (! auth()->user()->can('create', config('filament-comments.comment_model'))) {
             return;
         }
 
@@ -71,8 +74,20 @@ class CommentsComponent extends Component implements HasForms
         $this->getComments();
     }
 
-    public function getComments(): Collection
+    public function getComments(): Collection|array|SupportCollection
     {
+        if ($this->comments instanceof Collection) {
+            return $this->comments->loadMissing('user')->sortByDesc('created_at');
+        }
+
+        if (is_array($this->comments)) {
+            return collect($this->comments);
+        }
+
+        if ($this->comments instanceof SupportCollection) {
+            return $this->comments;
+        }
+
         return $this->record->filamentComments()->with(['user'])->latest()->get();
     }
 
