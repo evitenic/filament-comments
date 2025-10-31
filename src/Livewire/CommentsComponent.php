@@ -54,7 +54,7 @@ class CommentsComponent extends Component implements HasForms
 
         $data = $this->form->getState();
 
-        $this->record->filamentComments()->create([
+        $comment = $this->record->filamentComments()->create([
             'subject_type' => $this->record->getMorphClass(),
             'comment' => $data['comment'],
             'user_id' => auth()->id(),
@@ -66,12 +66,25 @@ class CommentsComponent extends Component implements HasForms
             ->send();
 
         $this->form->fill();
+
+        $this->comments = collect($this->comments)->prepend($comment);
     }
 
     #[On('refreshComments')]
-    public function refreshComments()
+    public function refreshComments($id = null, $newComment = null)
     {
-        $this->comments = $this->record->filamentComments()->with(['user'])->latest()->get();
+        if ($id && $newComment) {
+            $this->comments = collect($this->comments)
+                ->map(function (Model $comment) use ($id, $newComment) {
+                    return $comment->id === $id ? $newComment : $comment;
+                });
+        } elseif ($id) {
+            $this->comments = collect($this->comments)
+                ->reject(fn (Model $comment) => $comment->id === $id);
+        } else {
+            $this->record->filamentComments()->with(['user'])->latest()->get();
+        }
+
         $this->getComments();
     }
 
