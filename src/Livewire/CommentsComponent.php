@@ -71,6 +71,7 @@ class CommentsComponent extends Component implements HasForms
     #[On('refreshComments')]
     public function refreshComments()
     {
+        $this->comments = $this->record->filamentComments()->with(['user'])->latest()->get();
         $this->getComments();
     }
 
