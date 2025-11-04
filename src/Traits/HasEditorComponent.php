@@ -2,8 +2,6 @@
 
 namespace Evitenic\FilamentComments\Traits;
 
-use Filament\Forms\Components\Field;
-
 trait HasEditorComponent
 {
     /**
@@ -11,12 +9,16 @@ trait HasEditorComponent
      *
      * @return string
      */
-    public function getEditorComponent(string|Field $editor = 'rich')
+    public function getEditorComponent(string|array $editor = 'rich')
     {
-        if ($editor instanceof Field) {
-            return $editor
+        if (is_array($editor)) {
+            return $editor['component']::make('comment')
                 ->hiddenLabel()
-                ->required();
+                ->required()
+                ->convertUrls($editor['convertUrls'])
+                ->toolbarMode($editor['toolbarMode'])
+                ->maxHeight($editor['maxHeight'])
+                ->minHeight($editor['minHeight']);
         }
 
         return match ($editor) {
