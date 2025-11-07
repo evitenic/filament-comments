@@ -57,14 +57,13 @@
                 </div>
             @else
                 <div
-                    class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white">
+                    class="prose dark:prose-invert [&>*]:mb-2 [&>*]:mt-0 [&>*:last-child]:mb-0 prose-sm text-sm leading-6 text-gray-950 dark:text-white max-w-none">
                     @if (config('filament-comments.editor') === 'markdown')
                         {{ Str::of($comment->comment)->markdown()->toHtmlString() }}
                     @elseif(config('filament-comments.comment_type') === 'html')
-                        @php
-                            $safeHtml = Stevebauman\Purify\Facades\Purify::clean($comment->comment);
-                        @endphp
-                        {!! $comment->comment !!}
+                        <div class="user-content">
+                            {!! $comment->comment !!}
+                        </div>
                     @else
                         {{ Str::of($comment->comment)->toHtmlString() }}
                     @endif
