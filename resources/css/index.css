@@ -1,4 +1,26 @@
 @import '../../vendor/filament/filament/resources/css/theme.css';
 
-@source '../../resources/views/*.blade.php';
-@source '../../vendor/**/*.blade.php';
+@source '../views/*.php';
+@source '../../vendor/**/*.php';
+
+@layer utilities {
+
+    .user-content,
+    .user-content * {
+        all: revert;
+        font: inherit;
+        color: inherit;
+    }
+
+    .user-content table {
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+    }
+
+    .user-content th,
+    .user-content td {
+        border: 1px solid #ccc;
+        padding: 4px 8px;
+    }
+
+}

@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection as SupportCollection;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -22,6 +23,8 @@ class CommentsComponent extends Component implements HasActions, HasSchemas
     public ?array $data = [];
 
     public Model $record;
+
+    public Collection|array|SupportCollection $comments;
 
     public function mount(): void
     {
@@ -53,7 +56,7 @@ class CommentsComponent extends Component implements HasActions, HasSchemas
 
         $data = $this->form->getState();
 
-        $this->record->filamentComments()->create([
+        $comment = $this->record->filamentComments()->create([
             'subject_type' => $this->record->getMorphClass(),
             'comment' => $data['comment'],
             'user_id' => auth()->id(),
@@ -65,16 +68,42 @@ class CommentsComponent extends Component implements HasActions, HasSchemas
             ->send();
 
         $this->form->fill();
+
+        $this->comments = collect($this->comments)->prepend($comment);
     }
 
     #[On('refreshComments')]
-    public function refreshComments()
+    public function refreshComments($id = null, $newComment = null)
     {
+        if ($id && $newComment) {
+            $this->comments = collect($this->comments)
+                ->map(function (Model $comment) use ($id, $newComment) {
+                    return $comment->id === $id ? $newComment : $comment;
+                });
+        } elseif ($id) {
+            $this->comments = collect($this->comments)
+                ->reject(fn (Model $comment) => $comment->id === $id);
+        } else {
+            $this->record->filamentComments()->with(['user'])->latest()->get();
+        }
+
         $this->getComments();
     }
 
-    public function getComments(): Collection
+    public function getComments(): Collection|array|SupportCollection
     {
+        if ($this->comments instanceof Collection) {
+            return $this->comments->loadMissing(['user'])->sortByDesc('created_at');
+        }
+
+        if (is_array($this->comments)) {
+            return collect($this->comments);
+        }
+
+        if ($this->comments instanceof SupportCollection) {
+            return $this->comments;
+        }
+
         return $this->record->filamentComments()->with(['user'])->latest()->get();
     }
 

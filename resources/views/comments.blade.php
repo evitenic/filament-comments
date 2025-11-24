@@ -23,7 +23,7 @@
             @endforeach
         </div>
     @else
-        <div class="flex h-full items-center justify-center space-y-4">
+        <div class="flex h-full items-center justify-center gap-2">
             <x-filament::icon
                 icon="{{ config('filament-comments.icons.empty') }}"
                 class="h-12 w-12 text-gray-400 dark:text-gray-500"

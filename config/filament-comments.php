@@ -38,6 +38,17 @@ return [
      */
     'editor' => 'rich',
 
+    // 'editor' => [
+    //     'component' => TinyEditor::class,
+    //     'toolbarMode' => 'wrap',
+    //     'convertUrls' => false,
+    //     'maxHeight' => 600,
+    //     'minHeight' => 200,
+    // ],
+
+    // null or html
+    'comment_type' => 'html',
+
     /*
      * The rich editor toolbar buttons that are available to users.
      */

@@ -12,8 +12,18 @@ trait HasEditorComponent
      *
      * @return string
      */
-    public function getEditorComponent(string $editor = 'rich')
+    public function getEditorComponent(string|array $editor = 'rich')
     {
+        if (is_array($editor)) {
+            return $editor['component']::make('comment')
+                ->hiddenLabel()
+                ->required()
+                ->convertUrls($editor['convertUrls'])
+                ->toolbarMode($editor['toolbarMode'])
+                ->maxHeight($editor['maxHeight'])
+                ->minHeight($editor['minHeight']);
+        }
+
         return match ($editor) {
             'markdown' => MarkdownEditor::make('comment')
                 ->hiddenLabel()

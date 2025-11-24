@@ -156,7 +156,7 @@ class CommentComponent extends Component implements HasSchemas
 
         $comment->delete();
 
-        $this->dispatch('refreshComments');
+        $this->dispatch('refreshComments', id: $comment->id);
 
         Notification::make()
             ->title(__('filament-comments::filament-comments.notifications.deleted'))
